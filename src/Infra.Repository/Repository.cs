@@ -14,7 +14,7 @@ namespace NetExtensions
         private readonly DbContextOptions<TContext> _options;
         protected readonly Dictionary<Guid, TContext> Transactions = new Dictionary<Guid, TContext>();
 
-        public Repository(ILogger logger, DbContextOptions<TContext> options)
+        public Repository(ILogger<Repository<TContext>> logger, DbContextOptions<TContext> options)
         {
             _logger = logger;
             _options = options;
@@ -75,11 +75,11 @@ namespace NetExtensions
             });
         }
 
-        protected void Execute(Action<TContext> action) => ConnectionFactory.Create(_options, action);
+        public void Execute(Action<TContext> action) => ConnectionFactory.Create(_options, action);
 
-        protected T Execute<T>(Func<TContext, T> func) => ConnectionFactory.Create(_options, func);
+        public T Execute<T>(Func<TContext, T> func) => ConnectionFactory.Create(_options, func);
 
-        protected TransactionToken<T> ExecuteOpenTransaction<T>(Func<TContext, T> func) where T : class
+        public TransactionToken<T> ExecuteOpenTransaction<T>(Func<TContext, T> func) where T : class
         {
             var context = ConnectionFactory.CreateContext(_options);
             var tran = context.Database.BeginTransaction();
@@ -98,7 +98,7 @@ namespace NetExtensions
             }, result);
         }
 
-        protected void ExecuteTransaction(Action<TContext> action)
+        public void ExecuteTransaction(Action<TContext> action)
         {
             Execute(context =>
             {
@@ -118,7 +118,7 @@ namespace NetExtensions
             });
         }
 
-        protected void ExecuteInJoinedTransaction(Guid transactionId, Action<TContext> action)
+        public void ExecuteInJoinedTransaction(Guid transactionId, Action<TContext> action)
         {
             var transaction = Transactions.FirstOrDefault(x => x.Key == transactionId);
             if (transaction.Equals(default(KeyValuePair<Guid, TContext>)))
@@ -142,7 +142,7 @@ namespace NetExtensions
             }
         }
 
-        protected T ExecuteInJoinedTransaction<T>(Guid transactionId, Func<TContext, T> func)
+        public T ExecuteInJoinedTransaction<T>(Guid transactionId, Func<TContext, T> func)
         {
             var transaction = Transactions.FirstOrDefault(x => x.Key == transactionId);
             if (transaction.Equals(default(KeyValuePair<Guid, TContext>)))
@@ -166,8 +166,8 @@ namespace NetExtensions
                 throw;
             }
         }
-        
-        protected T ExecuteReadUncommitted<T>(Func<TContext, T> func)
+
+        public T ExecuteReadUncommitted<T>(Func<TContext, T> func)
         {
             using var tran = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions {IsolationLevel = IsolationLevel.ReadUncommitted});
             var ret = Execute(func);
