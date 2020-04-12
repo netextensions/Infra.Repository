@@ -21,7 +21,7 @@ namespace NetExtensions
 
     public class TransactionToken<T> : TransactionToken where T : class
     {
-        public T Data { get; }
+        private T Data { get; }
 
         public TransactionToken(Guid transactionId, Action rollBack, Action commit, T data) : base(transactionId, rollBack, commit)
         {
