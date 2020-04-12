@@ -75,9 +75,9 @@ namespace NetExtensions
             });
         }
 
-        public void Execute(Action<TContext> action) => ConnectionFactory.Create(_options, action);
+        public void Execute(Action<TContext> action) => ConnectionFactory.Execute(_options, action);
 
-        public T Execute<T>(Func<TContext, T> func) => ConnectionFactory.Create(_options, func);
+        public T Execute<T>(Func<TContext, T> func) => ConnectionFactory.Execute(_options, func);
 
         public TransactionToken<T> ExecuteOpenTransaction<T>(Func<TContext, T> func) where T : class
         {

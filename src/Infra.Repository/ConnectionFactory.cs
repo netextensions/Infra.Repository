@@ -19,11 +19,11 @@ namespace NetExtensions
             func(d);
         }
 
-        public static void Create<TContext>
+        public static void Execute<TContext>
             (DbContextOptions<TContext> options, Action<TContext> action) where TContext : DbContext, new() =>
             Using(CreateContext(options), action);
 
-        public static TR Create<TContext, TR>(DbContextOptions<TContext> options, Func<TContext, TR> func) where TContext : DbContext, new() => Using(CreateContext(options), func);
+        public static TR Execute<TContext, TR>(DbContextOptions<TContext> options, Func<TContext, TR> func) where TContext : DbContext, new() => Using(CreateContext(options), func);
 
         public static TContext CreateContext<TContext>(DbContextOptions<TContext> options) where TContext : DbContext, new() => (TContext) Activator.CreateInstance(typeof(TContext), options);
     }
