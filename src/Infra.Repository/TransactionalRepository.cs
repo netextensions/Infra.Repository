@@ -10,6 +10,7 @@ namespace NetExtensions
 {
     public class TransactionalRepository<TContext> : Repository<TContext> where TContext : DbContext, new()
     {
+        protected readonly Dictionary<Guid, TContext> Transactions = new Dictionary<Guid, TContext>();
         public TransactionalRepository(ILogger<Repository<TContext>> logger, DbContextOptions<TContext> options) : base(logger, options)
         {
         }
