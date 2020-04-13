@@ -11,7 +11,7 @@
     <RepositoryUrl>https://github.com/netextensions/Infra.Repository</RepositoryUrl>
     <PackageTags>Infra.Repository,.net core</PackageTags>
     <PackageId>NetExtensions.Infra.Repository</PackageId>
-    <PackageVersion>1.0.6</PackageVersion>
+    <PackageVersion>1.0.7</PackageVersion>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <Authors>netextensions.io</Authors>
     <PackageIcon>icon.png</PackageIcon>

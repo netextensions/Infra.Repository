@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace NetExtensions
 {
-    public class Repository<TContext> where TContext : DbContext, new()
+    public class Repository<TContext> where TContext : DbContext
     {
         protected readonly ILogger Logger;
         protected readonly DbContextOptions<TContext> Options;
