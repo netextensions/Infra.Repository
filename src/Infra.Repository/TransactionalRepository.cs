@@ -8,10 +8,10 @@ using Microsoft.Extensions.Logging;
 
 namespace NetExtensions
 {
-    public class TransactionalRepository<TContext> : Repository<TContext> where TContext : DbContext
+    public class TransactionalRepository<TContext> : ContextHandler<TContext> where TContext : DbContext
     {
         protected readonly Dictionary<Guid, TContext> Transactions = new Dictionary<Guid, TContext>();
-        public TransactionalRepository(ILogger<Repository<TContext>> logger, DbContextOptions<TContext> options) : base(logger, options)
+        public TransactionalRepository(ILogger<ContextHandler<TContext>> logger, DbContextOptions<TContext> options) : base(logger, options)
         {
         }
 
